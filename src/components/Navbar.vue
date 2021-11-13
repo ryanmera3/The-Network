@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-gradient px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' , params: {id: account.id}}">
       <div class="d-flex flex-column align-items-center">
         <h1>NETWORK</h1>
       </div>
@@ -18,9 +18,14 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
-        <li>
+        <!-- <li>
           <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
             About
+          </router-link>
+        </li> -->
+        <li>
+          <router-link :to="{ name: 'Profile', params: { id: account.id } }" class="btn text-success lighten-30 selectable text-uppercase">
+            Profile
           </router-link>
         </li>
       </ul>
@@ -79,6 +84,7 @@ export default {
   setup() {
     return {
       user: computed(() => AppState.user),
+      account: computed(() => AppState.account),
       async login() {
         AuthService.loginWithPopup()
       },

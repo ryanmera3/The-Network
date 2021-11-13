@@ -1,26 +1,29 @@
 <template>
-  
-  <div
-    class="post row ms-5 "
-    v-for="p in post"
-    :key="p.id"
-  >
-    <div class="card mt-2 col-md-12" >
-      <div class="row">
-        <div class="col-md-12 ">
-          <img :src="p.creator?.picture" alt="" class="circular--landscape m-2" @click="profileLink(p.creatorId)">
-          {{p.creator?.name}} || {{p.createdAt}} || {{p.likeIds?.length}} || 
-        </div>
-        <div class="col-md-12 p-0">
-          <div class="p-3 pe-5">
-          {{p.body}}
-          </div>
-          <img :src="p.imgUrl" alt="" class="w-25 ms-3 mb-3">
-            <button class="btn btn-outline-primary mdi mdi-arrow-right-thin-circle-outline selectable" v-if="p.creatorId == account.id" @click="deletePost(p.id)"></button>
+  <div class="create-post row ms-5 mt-4">
+    <div class="card col-md-12 mt-2">
+      <div class="row my-2">
+
+        <div class="col-md-12  m-0">
+          <div class="row justify-content-between">
+            <div class="col-md-12">
+              <form @submit.prevent="createPost">
+             <div class="form-group mt-2">
+                  <textarea class="form-control my-2" id="exampleFormControlTextarea1" rows="3" v-model="state.editable.body" required placeholder="Post body"></textarea>
+                  <textarea class="form-control my-2" id="exampleFormControlTextarea1" rows="3" v-model="state.editable.imgUrl" placeholder="Post Image"></textarea>
+
+              </div>
+
+            <div class="col-md-12 d-flex justify-content-end my-2 me-3">
+              <button class="btn btn-outline-primary mdi mdi-arrow-right-thin-circle-outline selectable">Create</button>
+
+            </div>
+                </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 
@@ -29,12 +32,10 @@ import { computed, onMounted, reactive } from "@vue/runtime-core"
 import { logger } from "../utils/Logger"
 import Pop from "../utils/Pop"
 import {postsService } from "../services/PostsService"
+import {profileService} from "../services/ProfileService"
 import { AppState } from "../AppState"
-import { profileService } from "../services/ProfileService"
-import {useRouter} from "vue-router"
 export default {
   setup(){
-    const router = useRouter()
     const state = reactive({
       editable: {},
     })
@@ -60,26 +61,8 @@ export default {
           Pop.toast(error.message)
         }
       },
-      async deletePost(id) {
-        try {
-          await postsService.deletePost(id)
-        } catch (error) {
-          logger.log(error)
-          Pop.toast(error.message)
-        }
-      },
-      async profileLink(id){
-        try {
-          if(id){
 
-            await profileService.getProfile(id)
-          router.push({path: '/profile/' + id})
-          }
-        } catch (error) {
-          logger.log(error)
-          Pop.toast(error.message)
-        }
-      }
+
     }
   }}
 </script>

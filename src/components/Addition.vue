@@ -7,7 +7,7 @@
     <div class="mt-2 col-md-12">
       <div class="row">
         <div class="col-md-12 ">
-          <img :src="a.tall" alt="" class="m-2">
+          <img :src="a.tall" alt="" class="ms-2 img-fluid">
         </div>
       </div>
     </div>
@@ -40,5 +40,8 @@ export default {
 
 
 <style lang="scss" scoped>
-
+  .img{
+    height: 100%;
+    width:50;
+  }
 </style>
