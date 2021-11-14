@@ -15,8 +15,8 @@
       </div>
     <div class="row text-center">
       <div class="col-md-12">
-        <button class="btn btn-outline-primary selectable" @click="prevPage">Prev</button>
-        <button class="btn btn-outline-primary selectable" @click="nextPage">Next</button>
+        <button class="btn btn-outline-primary selectable me-2" @click="prevPage" >Prev</button>
+        <button class="btn btn-outline-primary selectable ms-2" @click="nextPage" >Next</button>
       </div>
     </div>
     </div>
@@ -36,8 +36,10 @@ export default {
   setup() {
     let page = 1
     return {
+      page,
       account: computed(() => AppState.account),
       profile: computed(() => AppState.profile),
+      posts: computed(()=> AppState.posts),
       async nextPage(){
          try {
            page++

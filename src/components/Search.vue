@@ -6,7 +6,7 @@
           @submit="search"
           v-model="searchText"
           class="form-control"
-          placeholder="search title of posts"
+          placeholder="search body of posts"
           type="text"
         />
         <button class="btn btn-outline-primary">search</button>
@@ -17,9 +17,10 @@
 
 
 <script>
-import { ref } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 import { logger } from "../utils/Logger";
 import { postsService } from '../services/PostsService';
+import { AppState } from "../AppState";
 export default {
   setup() {
     const searchText = ref("");
@@ -27,12 +28,13 @@ export default {
       searchText,
       async search() {
         try {
-          await postsService.getPosts("?name=" + searchText.value);
-          logger.log(this.searchText);
+          await postsService.getPosts("?query=" + searchText.value, "?creatorName" + searchText.value);
         } catch (error) {
           logger.error(error);
         }
       },
+      account: computed(()=> AppState.account),
+      profile: computed(()=> AppState.profile)
     };
   },
 };

@@ -25,7 +25,7 @@
         </li> -->
         <li>
           <router-link :to="{ name: 'Profile', params: { id: account.id } }" class="btn text-success lighten-30 selectable text-uppercase">
-            Profile
+            My Profile
           </router-link>
         </li>
       </ul>

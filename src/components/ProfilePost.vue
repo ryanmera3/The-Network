@@ -10,18 +10,13 @@
         <div class="col-md-12 ">
           <img :src="p.creator?.picture" alt="" class="circular--landscape m-2" @click="profileLink(p.creatorId)">
           {{p.creator?.name}} || {{p.createdAt}} || {{p.likeIds?.length}} || 
-
         </div>
         <div class="col-md-12 p-0">
           <div class="p-3 pe-5">
           {{p.body}}
           </div>
           <img :src="p.imgUrl" alt="" class="w-25 ms-3 mb-3">
-            <div class="justify-content-between d-flex m-2">
-            <button class="btn btn-outline-primary mdi mdi-heart selectable" @click="like(p.id)" v-if="!p.likeIds.includes(account.id)"></button>
-            <button class="btn btn-danger mdi mdi-heart selectable" @click="like(p.id)" v-if="p.likeIds.includes(account.id)"></button>
-            <button class="btn btn-outline-primary mdi mdi-arrow-right-thin-circle-outline selectable" v-if="p.creatorId == account.id" @click="deletePost(p.id)">Delete</button>
-            </div>
+            <button class="btn btn-outline-primary mdi mdi-arrow-right-thin-circle-outline selectable" v-if="p.creatorId == account.id" @click="deletePost(p.id)"></button>
           </div>
         </div>
       </div>
@@ -36,17 +31,18 @@ import Pop from "../utils/Pop"
 import {postsService } from "../services/PostsService"
 import { AppState } from "../AppState"
 import { profileService } from "../services/ProfileService"
-import {useRouter} from "vue-router"
+import {useRouter, useRoute} from "vue-router"
 export default {
   setup(){
+    const route = useRoute()
     const router = useRouter()
     const state = reactive({
       editable: {},
-      isActive: true,
     })
     onMounted(async () => {
       try {
-        await postsService.getPosts()
+        if(route.name == "Profile")
+        await postsService.getPosts('?id' + route.params.id )
       } catch (error) {
         logger.error(error)
         Pop.toast(error.message)
@@ -56,7 +52,7 @@ export default {
       state,
       post: computed(()=> AppState.posts),
       account: computed(()=> AppState.account),
-
+      profile: computed(()=> AppState.profile),
       async createPost() {
         try {
           await postsService.createPost(state.editable)
@@ -69,14 +65,6 @@ export default {
       async deletePost(id) {
         try {
           await postsService.deletePost(id)
-        } catch (error) {
-          logger.log(error)
-          Pop.toast(error.message)
-        }
-      },
-      async like(id){
-        try {
-          await postsService.like(id)
         } catch (error) {
           logger.log(error)
           Pop.toast(error.message)
@@ -130,10 +118,5 @@ export default {
 
 .flex-grow{
   flex-grow: 1;
-}
-
-.unlike{
-  background-color: red;
-  border-color: red;
 }
 </style>

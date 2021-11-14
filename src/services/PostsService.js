@@ -26,8 +26,13 @@ class PostsService {
   
   async page(query = ""){
     const res = await api.get('api/posts/' + query)
-    logger.log(res.data)
     AppState.posts = res.data.posts
+  }
+
+  async like(id){
+    const res = await api.post('api/posts/' + id + '/like')
+    logger.log(res.data)
+    AppState.posts.unshift(res.data)
   }
 }
 

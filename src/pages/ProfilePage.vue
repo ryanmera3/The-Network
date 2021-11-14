@@ -11,7 +11,7 @@
     <div class="row ms-1 mt-3">
       <div class="col-md-8">
         <CreatePost v-if="account.id"/>
-        <Post/>
+        <ProfilePost/>
       </div>
       <div class="col-md-4">
         <Addition/>
