@@ -5,18 +5,20 @@
     v-for="p in post"
     :key="p.id"
   >
-    <div class="card mt-2 col-md-12" >
-      <div class="row">
-        <div class="col-md-12 ">
+    <div class="card mt-2 col-md-12" v-if="p.creatorId == profile.id">
+      <div class="row" >
+        <div class="col-md-12" >
           <img :src="p.creator?.picture" alt="" class="circular--landscape m-2" @click="profileLink(p.creatorId)">
-          {{p.creator?.name}} || {{p.createdAt}} || {{p.likeIds?.length}} || 
+          {{p.creator?.name}} || {{p.createdAt}} || {{p.likeIds?.length}}❤ || 
         </div>
         <div class="col-md-12 p-0">
           <div class="p-3 pe-5">
           {{p.body}}
           </div>
-          <img :src="p.imgUrl" alt="" class="w-25 ms-3 mb-3">
-            <button class="btn btn-outline-primary mdi mdi-arrow-right-thin-circle-outline selectable" v-if="p.creatorId == account.id" @click="deletePost(p.id)"></button>
+          <img :src="p.imgUrl" alt="" class="w-25 p-3">
+          <div class="justify-content-end d-flex p-3">
+            <button class="btn btn-danger mdi mdi-arrow-right-thin-circle-outline selectable" v-if="p.creatorId == account.id" @click="deletePost(p.id)">Delete</button>
+          </div>
           </div>
         </div>
       </div>

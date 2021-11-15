@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col-md-12 ">
           <img :src="p.creator?.picture" alt="" class="circular--landscape m-2" @click="profileLink(p.creatorId)">
-          {{p.creator?.name}} || {{p.createdAt}} || {{p.likeIds?.length}} || 
+          {{p.creator?.name}} || {{p.createdAt.split('T')[0]}} || {{p.likeIds?.length}}❤ || 
 
         </div>
         <div class="col-md-12 p-0">
@@ -18,9 +18,9 @@
           </div>
           <img :src="p.imgUrl" alt="" class="w-25 ms-3 mb-3">
             <div class="justify-content-between d-flex m-2">
-            <button class="btn btn-outline-primary mdi mdi-heart selectable" @click="like(p.id)" v-if="!p.likeIds.includes(account.id)"></button>
+            <button class="btn btn-outline-primary mdi mdi-heart selectable" @click="like(p.id)" v-if="!p.likeIds.includes(account.id) && account.id"></button>
             <button class="btn btn-danger mdi mdi-heart selectable" @click="like(p.id)" v-if="p.likeIds.includes(account.id)"></button>
-            <button class="btn btn-outline-primary mdi mdi-arrow-right-thin-circle-outline selectable" v-if="p.creatorId == account.id" @click="deletePost(p.id)">Delete</button>
+            <button class="btn btn-danger mdi mdi-arrow-right-thin-circle-outline selectable" v-if="p.creatorId == account.id" @click="deletePost(p.id)">Delete</button>
             </div>
           </div>
         </div>
